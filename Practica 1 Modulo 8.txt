@@ -1,0 +1,41 @@
+sudo dnf remove docker \
+    docker-client \
+    docker-client-latest \
+    docker-common \
+    docker-latest \
+    docker-latest-logrotate \
+    docker-logrotate \
+    docker-engine \
+    podman \
+    runc  
+
+sudo dnf -y install dnf-plugins-core  
+sudo tee /etc/yum.repos.d/docker-ce.repo <<EOF  
+[docker-ce-stable]  
+name=Docker CE Stable - CentOS Stream 9  
+baseurl=https://download.docker.com/linux/centos/9/x86_64/stable/  
+enabled=1  
+gpgcheck=1  
+gpgkey=https://download.docker.com/linux/centos/gpg  
+EOF  
+
+sudo dnf install -y docker-ce docker-ce-cli containerd.io  
+
+sudo systemctl enable --now docker  
+sudo systemctl start docker  
+sudo systemctl status docker  
+
+sudo docker run hello-world  
+
+docker search nginx  
+docker pull nginx  
+
+mkdir /home/website  
+cd website/  
+nano index.html  
+<html><body><h1> Alvin Junior Vargas Jimenez 2023-1876 </h1></body></html>  
+
+docker --version  
+sudo docker images  
+sudo docker ps -a  
+docker run -d -p 8888:80 -v /home/website:/usr/share/nginx/html --name my_nginx nginx  
